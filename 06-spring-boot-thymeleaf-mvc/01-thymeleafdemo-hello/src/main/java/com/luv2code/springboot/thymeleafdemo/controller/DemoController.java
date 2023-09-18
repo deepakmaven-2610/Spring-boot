@@ -12,7 +12,7 @@ public class DemoController
     @GetMapping("/hello")
     public String sayHello(Model theModel)
     {
-        theModel.addAttribute("theData",new java.util.Date());
+        theModel.addAttribute("theDate",new java.util.Date());
         return "helloworld"; //thymeleaf will automatically look for this file in template
     }
 }
