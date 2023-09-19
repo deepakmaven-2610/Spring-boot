@@ -19,9 +19,18 @@ public class DemoSecurityConfig
     @Bean
     public UserDetailsManager userDetailsManager(DataSource dataSource)
     {
-        return new JdbcUserDetailsManager(dataSource);
-    }
+        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
 
+        //define a query to retrieve a query by username --> to find users
+        jdbcUserDetailsManager.setUsersByUsernameQuery(
+                "select user_id, pw, active from members where user_id=?");
+
+        //define query to retrieve the authorities/role by username --> to find roles
+        jdbcUserDetailsManager.setAuthoritiesByUsernameQuery(
+                "select user_id, role from roles where user_id=?");
+
+        return jdbcUserDetailsManager;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
